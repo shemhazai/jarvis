@@ -10,7 +10,7 @@ Quand je lance `/prime` au début d'une session, exécute la séquence suivante 
 
 ### Étape 0 : Synchroniser le workspace
 
-Avant toute lecture, remets le workspace à jour. Le contexte est écrit depuis deux machines, un fichier de contexte périmé ou en conflit fausse tout le reste de la session. Le dépôt est `https://github.com/shemhazai/jarvis.git` depuis le 2026-09-10, mon compte d'origine n'ayant pas pu être récupéré.
+Avant toute lecture, remets le workspace à jour. Le contexte est écrit depuis deux machines, un fichier de contexte périmé ou en conflit fausse tout le reste de la session. Le dépôt est `https://github.com/shemhazai/jarvis.git` depuis le 2026-09-10, mon compte d'origine n'ayant pas pu être récupéré. Il est public depuis le 2026-11-18, son historique antérieur vit dans `shemhazai/jarvis-archive`, privé.
 
 1. Vérifie qu'aucun merge n'est resté en cours : présence de `.git/MERGE_HEAD`, ou lignes `UU`/`AA` dans `git status --porcelain`. Si c'est le cas, **arrête-toi et signale-le**, ne charge pas un contexte qui contient des marqueurs de conflit.
 2. Si l'arbre contient des modifications non committées, signale-le avant d'agir, sans rien commiter.
@@ -18,6 +18,7 @@ Avant toute lecture, remets le workspace à jour. Le contexte est écrit depuis 
 4. Si le pull réussit, enchaîne sur l'étape 1.
 5. Si `--ff-only` est refusé (branches divergentes) ou si le pull s'arrête sur conflit, **ne tente aucune résolution automatique**. Signale-le, expose ce qui diverge, et attends mes instructions.
 6. Une fois le pull passé, signale les commits non poussés : `git rev-list --count @{u}..HEAD`. Un commit resté local sur une machine devient la divergence de l'autre, c'est la cause exacte du merge de trois semaines démêlé le 2026-08-27.
+7. Vérifie que le garde-fou de publication est actif sur cette machine : `git config core.hooksPath` vaut `.githooks`, le fichier `.git/info/motifs-prives` existe, et `git config user.email` est l'adresse noreply donnée dans `CONTEXT.md`. Si l'un manque, **signale-le** et donne la commande qui corrige, sans l'exécuter : un push depuis cette machine partirait sans contrôle, ou sous une adresse privée. La liste privée ne se recopie que par un canal privé, jamais par ce dépôt.
 
 **Le `pull --ff-only` de l'étape 0 est la seule opération réseau que tu lances de toi-même.** Le `push` et tout le reste se font sur ma demande explicite.
 
