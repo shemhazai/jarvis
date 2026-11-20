@@ -9,6 +9,14 @@
 
 ## 2026-11-18
 
+### Garde-fou de publication avant chaque push
+
+- **Pièce de harnais de Jarvis**, demandée par Cédric après la publication : `.githooks/verifier-publication.sh`, le hook `pre-push`, la liste versionnée `.githooks/autorises.txt` et une liste privée par clone, `.git/info/motifs-prives`. Les motifs versionnés ne portent aucune donnée réelle, la liste privée reprend les chaînes de l'audit et ne quitte jamais la machine
+- **Hook git plutôt que hook Claude Code** : il arrête tout push, d'un agent comme d'un humain, et `core.hooksPath` le rend versionnable. Il n'arrête pas un agent décidé, `--no-verify` suffit à le contourner : `/update` interdit ce contournement sans Cédric
+- **Testé avant d'être branché**, dans un dépôt jetable contre un faux distant local : le commit propre passe, gabarits compris, le commit qui porte une fausse donnée par catégorie est refusé dans les 12 catégories et le distant reste inchangé. Une liste privée absente bloque, une liste vide passe
+- **Deux défauts trouvés par les tests, aucun par la relecture** : la variable `RE_SECRET=` se reconnaissait comme une affectation de secret, puis un commentaire du script aussi. Le second a resserré le motif : le deux-points doit être collé au nom, comme en YAML ou en JSON, la prose française mettant une espace avant
+- **Branché** : `/update` lance le contrôle avant le commit et sait qu'un blocage du hook n'est pas un rejet du distant. `/prime` vérifie que le garde-fou est actif sur la machine. `.gitattributes` force `.githooks/*` en LF, `pre-push` n'ayant pas d'extension
+
 ### Le workspace devient public, son historique part en archive privée
 
 - **Audit de l'historique**, à la demande de Cédric, sur les 105 commits, fichiers supprimés et messages compris, chaque motif testé d'abord sur un faux secret : aucun secret versionné, ni mot de passe, ni clé, ni token. En revanche, des données d'infrastructure et des données personnelles, dans des fichiers déjà retirés mais encore lisibles dans l'historique

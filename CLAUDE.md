@@ -69,6 +69,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 │   ├── CONTEXT.md               # Qui je suis, ce que je fais, mes objectifs
 │   ├── HISTORY.md               # Journal évolutif de mes sessions
 │   └── import/                  # Documents externes à analyser
+├── .githooks/                   # Garde-fou de publication avant chaque push
 └── .claude/
     ├── commands/
     │   ├── prime.md             # /prime pour démarrer une session
@@ -84,6 +85,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 | `context/import/` | Documents externes (PDFs, exports, notes) à analyser |
 | `.claude/commands/` | Commandes personnalisées de mon Jarvis |
 | `.claude/skills/` | Skills (super-pouvoirs) de mon Jarvis |
+| `.githooks/` | Garde-fou de publication : vérificateur, hook pre-push, valeurs publiques autorisées |
 
 ---
 
@@ -94,7 +96,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 **Objectif :** Démarrer une nouvelle session avec contexte complet.
 
 À lancer au début de chaque session. Claude va :
-0. Synchroniser le workspace : s'arrêter si un merge est en cours, sinon `git pull --ff-only`, aucune résolution automatique en cas de divergence, puis signaler les commits non poussés. Le contexte s'écrit depuis deux machines. En dehors de ce pull, aucune opération réseau git de sa propre initiative
+0. Synchroniser le workspace : s'arrêter si un merge est en cours, sinon `git pull --ff-only`, aucune résolution automatique en cas de divergence, puis signaler les commits non poussés et vérifier que le garde-fou de publication est actif sur la machine. Le contexte s'écrit depuis deux machines. En dehors de ce pull, aucune opération réseau git de sa propre initiative
 1. Lire CLAUDE.md, CONTEXT.md et HISTORY.md
 2. Résumer sa compréhension de qui je suis et où j'en suis
 3. Confirmer qu'il est prêt à m'aider
@@ -105,7 +107,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 
 À utiliser quand quelque chose d'important a changé et que je veux que Claude reflète cette information dans les fichiers, ou pour faire une mise à jour générale après une session productive.
 
-La commande se termine par un commit et un `push` : le contexte s'écrit depuis deux machines, une mise à jour restée locale devient la divergence de la prochaine session sur l'autre machine. En cas de divergence, arrêt sans résolution automatique.
+La commande se termine par un commit et un `push` : le contexte s'écrit depuis deux machines, une mise à jour restée locale devient la divergence de la prochaine session sur l'autre machine. En cas de divergence, arrêt sans résolution automatique. Le dépôt étant public, le contenu passe d'abord par le garde-fou de publication (`.githooks/`), que rien ne contourne sans l'accord de Cédric.
 
 ### /morning
 
