@@ -45,6 +45,8 @@ Voici ce que je vais faire :
 Tu valides ?
 ```
 
+**Le dépôt est public depuis le 2026-11-18** : ce que Cédric valide ici sera publié à l'étape 4. Signale dans le plan tout élément personnel, de lieu, d'infrastructure ou concernant un tiers. Le garde-fou de publication ne reconnaît que des motifs, il ne voit pas qu'une phrase raconte une vie privée.
+
 ### Étape 3 : Exécuter les modifications
 
 Une fois validé :
@@ -79,10 +81,13 @@ Donc, une fois les fichiers modifiés et **avant** de committer :
 
 Un contexte à jour qui reste sur ce disque ne sert qu'à cette machine. Le contexte s'écrit depuis deux machines, la perso sous `cedric` et la pro sous `cleroy` : une session qui écrit sans pousser devient la divergence de l'autre machine, et c'est exactement ce qui a laissé `CONTEXT.md` et `HISTORY.md` en conflit pendant trois semaines en août 2026.
 
-1. Commite **uniquement** les fichiers que tu viens de modifier, nommés un par un. Ne fais jamais de `git add .` ni de `git add -A` : l'arbre peut porter d'autres modifications qui ne sont pas de ton fait.
-2. Respecte la convention du dépôt, lisible dans `git log` : un préfixe de type (`context:` pour les fichiers de contexte, `prime:` ou `update:` pour une commande, `roadmap:` pour le roadmap, `chore:` pour l'outillage), **sujet et corps sans accents**, corps en liste courte qui dit les faits et leur motif. Aucun trailer d'attribution, l'exception Co-Authored-By ne vaut que pour le dépôt events-manager.
-3. `git push`.
-4. **Si le push est rejeté**, la machine pro a poussé entre-temps. Fais un `git pull --ff-only` puis repousse. Si le `--ff-only` est refusé à son tour, les deux machines ont divergé : **arrête-toi, ne tente aucune résolution automatique**, expose ce qui diverge et attends mes instructions. La règle d'arbitrage de `/prime` s'applique, l'état réel du dépôt concerné tranche, jamais le récit.
+**Le dépôt est public depuis le 2026-11-18** : ce qui est poussé est publié. Le garde-fou de publication (`.githooks/`) contrôle deux fois, avant le commit et au push.
+
+1. **Lance `bash .githooks/verifier-publication.sh` avant de committer.** Il contrôle l'arbre de travail et l'identité git configurée. S'il signale quelque chose, montre-le à Cédric, corrige le contenu et relance. Une valeur publique ne s'ajoute à `.githooks/autorises.txt` qu'avec son accord.
+2. Commite **uniquement** les fichiers que tu viens de modifier, nommés un par un. Ne fais jamais de `git add .` ni de `git add -A` : l'arbre peut porter d'autres modifications qui ne sont pas de ton fait.
+3. Respecte la convention du dépôt, lisible dans `git log` : un préfixe de type (`context:` pour les fichiers de contexte, `prime:` ou `update:` pour une commande, `roadmap:` pour le roadmap, `chore:` pour l'outillage), **sujet et corps sans accents**, corps en liste courte qui dit les faits et leur motif. Aucun trailer d'attribution, l'exception Co-Authored-By ne vaut que pour le dépôt events-manager.
+4. `git push`. Le hook `pre-push` repasse le contrôle sur chaque commit qui part. **S'il bloque, ce n'est pas un rejet du distant** : ne fais pas de pull. Lis ses trouvailles, réécris le commit fautif tant qu'il n'est pas poussé, puis relance.
+5. **Si le distant rejette le push**, l'autre machine a poussé entre-temps. Fais un `git pull --ff-only` puis repousse. Si le `--ff-only` est refusé à son tour, les deux machines ont divergé : **arrête-toi, ne tente aucune résolution automatique**, expose ce qui diverge et attends mes instructions. La règle d'arbitrage de `/prime` s'applique, l'état réel du dépôt concerné tranche, jamais le récit.
 
 ### Étape 5 : Confirmer
 
@@ -104,6 +109,7 @@ Ton contexte est à jour et sauvegardé. Tu peux relancer /prime à ta prochaine
 - **L'étape 3 bis n'est pas optionnelle, et elle n'est pas une relecture.** Une mise à jour qui corrige la section portant la décision et s'arrête là laisse le contexte se contredire lui-même, et le trou se découvre à la session suivante, quand personne ne se souvient de la décision. Chercher les mots-clés de ce qui a changé coûte une commande ; ne pas le faire a coûté quatre allers-retours le 2026-11-08
 - La mise à jour n'est finie qu'une fois poussée : un contexte committé mais resté local est la divergence de la prochaine session sur l'autre machine
 - Le `push` de l'étape 4 se fait sans me le redemander, c'est le but de la commande. En revanche, aucune résolution de divergence sans mon instruction
+- **Le garde-fou de publication ne se contourne jamais de ta propre initiative** : ni `--no-verify`, ni `core.hooksPath` modifié, ni liste privée vidée ou retirée. Le contournement est une décision de Cédric, au cas par cas
 - Garde HISTORY.md chronologique avec le plus récent en haut
 - Garde CONTEXT.md synthétique, si une section devient trop longue, propose de créer un fichier dédié dans `context/import/`
 - Préserve la structure et le formatage des fichiers existants
