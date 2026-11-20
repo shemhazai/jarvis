@@ -109,7 +109,7 @@ Ton contexte est à jour et sauvegardé. Tu peux relancer /prime à ta prochaine
 - **L'étape 3 bis n'est pas optionnelle, et elle n'est pas une relecture.** Une mise à jour qui corrige la section portant la décision et s'arrête là laisse le contexte se contredire lui-même, et le trou se découvre à la session suivante, quand personne ne se souvient de la décision. Chercher les mots-clés de ce qui a changé coûte une commande ; ne pas le faire a coûté quatre allers-retours le 2026-11-08
 - La mise à jour n'est finie qu'une fois poussée : un contexte committé mais resté local est la divergence de la prochaine session sur l'autre machine
 - Le `push` de l'étape 4 se fait sans me le redemander, c'est le but de la commande. En revanche, aucune résolution de divergence sans mon instruction
-- **Le garde-fou de publication ne se contourne jamais de ta propre initiative** : ni `--no-verify`, ni `core.hooksPath` modifié, ni liste privée vidée ou retirée. Le contournement est une décision de Cédric, au cas par cas
+- **Le garde-fou de publication ne se contourne jamais de ta propre initiative** : ni `--no-verify`, ni `core.hooksPath` modifié, ni liste privée vidée ou retirée. Le contournement est une décision de Cédric, au cas par cas. Le hook Claude Code `.claude/hooks/garde-publication.sh` refuse ces trois commandes : s'il bloque, montre à Cédric ce que le garde-fou signale, sans chercher de détour
 - Garde HISTORY.md chronologique avec le plus récent en haut
 - Garde CONTEXT.md synthétique, si une section devient trop longue, propose de créer un fichier dédié dans `context/import/`
 - Préserve la structure et le formatage des fichiers existants
