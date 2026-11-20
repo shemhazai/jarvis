@@ -7,6 +7,18 @@
 
 ---
 
+## 2026-11-20
+
+### Hook Claude Code qui protège le garde-fou de publication
+
+- **Le verrou qui manquait** : le hook git cède à `--no-verify`, et `/update` n'interdisait ce contournement que par écrit. `.claude/hooks/garde-publication.sh`, déclaré en `PreToolUse` sur Bash et PowerShell dans `.claude/settings.json`, refuse désormais trois commandes d'agent : `--no-verify` au push, toute surcharge de `core.hooksPath`, la liste privée retirée, déplacée, vidée ou écrasée. Le refus revient à l'agent avec sa raison, la décision reste à Cédric, dans son propre terminal
+- **Premier hook Claude Code de Jarvis**, et la différence avec le hook git devient concrète : celui-ci n'arrête que l'agent, mais avant la commande, quand le hook git arrête tout le monde, au moment du push
+- **Testé sans Claude Code, puis en direct** : 33 cas passés par la commande exacte du `settings.json`, 18 contournements bloqués en Bash comme en PowerShell, 15 usages légitimes permis. Puis deux sondes inoffensives, un `echo` et un `Write-Output` portant le motif, refusées par Claude Code dans la session même : le hook est actif sans redémarrage
+- **Deux défauts corrigés avant la mise en service** : une règle de configuration aurait bloqué le commit `update:` du 2026-11-18, dont le message cite « core.hooksPath modifie », d'où la limite aux vraies commandes `config`. Et 387 ms ajoutées à chaque commande, ramenées à 141 par une sortie immédiate sans processus externe
+- **Limites écrites** : un script écrit puis lancé, une édition du hook ou de `.git/config` passent encore, et un `echo` qui cite le motif est refusé à tort
+
+---
+
 ## 2026-11-18
 
 ### Garde-fou de publication avant chaque push

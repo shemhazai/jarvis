@@ -71,6 +71,9 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 │   └── import/                  # Documents externes à analyser
 ├── .githooks/                   # Garde-fou de publication avant chaque push
 └── .claude/
+    ├── settings.json            # Hook Claude Code qui protège le garde-fou
+    ├── hooks/
+    │   └── garde-publication.sh # Refuse les contournements du garde-fou
     ├── commands/
     │   ├── prime.md             # /prime pour démarrer une session
     │   ├── update.md            # /update pour mettre à jour le contexte
@@ -86,6 +89,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 | `.claude/commands/` | Commandes personnalisées de mon Jarvis |
 | `.claude/skills/` | Skills (super-pouvoirs) de mon Jarvis |
 | `.githooks/` | Garde-fou de publication : vérificateur, hook pre-push, valeurs publiques autorisées |
+| `.claude/hooks/` | Hook Claude Code déclaré dans `.claude/settings.json` : refuse les contournements du garde-fou |
 
 ---
 
