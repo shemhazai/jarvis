@@ -22,6 +22,10 @@
 *.yaml  text eol=lf
 *.sh    text eol=lf
 
+# Hooks git : bash refuse les CRLF, et pre-push n'a pas d'extension qui le
+# rattacherait a *.sh. Sans cette regle, un clone Windows le casserait.
+.githooks/*  text eol=lf
+
 # Fichiers qui doivent garder CRLF meme hors Windows : un LF y casse
 # l'interpreteur. Aucun present aujourd'hui, la regle previent le cas.
 *.bat   text eol=crlf

@@ -1,0 +1,28 @@
+# Valeurs publiques acceptees par le garde-fou de publication (.githooks/verifier-publication.sh).
+# Une entree par ligne : domaine (ses sous-domaines compris), adresse e-mail ou adresse IP, en
+# correspondance exacte, sans tenir compte de la casse.
+# Tout domaine, toute adresse ou IP absente de cette liste bloque la publication. Ajouter une
+# ligne publie la valeur : c'est une decision de Cedric, jamais celle d'un agent.
+
+# Adresse des commits publics
+326246213+shemhazai@users.noreply.github.com
+
+# Domaines deja publies dans le depot au 2026-11-18
+github.com
+eur-lex.europa.eu
+asp.net
+
+# Fournisseurs publics de la pile et de l'outillage, ajoutes a la creation du garde-fou
+anthropic.com
+claude.com
+claude.ai
+microsoft.com
+angular.dev
+nuget.org
+npmjs.com
+zalando.com
+iapreneurs.com
+
+# Adresses locales, sans portee hors de la machine
+127.0.0.1
+0.0.0.0

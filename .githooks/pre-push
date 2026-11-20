@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Hook pre-push du workspace Jarvis : ce depot est public, aucun commit ne part sans controle.
+# Actif seulement si `git config core.hooksPath .githooks` est pose sur la machine, ce que /prime verifie.
+# Git transmet sur l'entree standard une ligne par ref poussee :
+#   <ref locale> <sha local> <ref distante> <sha distant>
+# Chaque commit absent du distant est controle, pas seulement le dernier : tous deviennent publics.
+
+set -u
+distant=${1:-origin}
+commits=()
+while read -r ref_locale sha_local ref_distante sha_distant; do
+  case $sha_local in *[!0]*) ;; *) continue ;; esac   # suppression de ref : rien a publier
+  case $sha_distant in
+    *[!0]*)
+      if git cat-file -e "$sha_distant^{commit}" 2>/dev/null; then
+        plage=("$sha_distant..$sha_local")
+      else
+        plage=("$sha_local" --not --remotes="$distant")
+      fi ;;
+    *) plage=("$sha_local" --not --remotes="$distant") ;;   # nouvelle branche
+  esac
+  while read -r c; do commits+=("$c"); done < <(git rev-list "${plage[@]}")
+done
+
+[ ${#commits[@]} -eq 0 ] && exit 0
+racine=$(git rev-parse --show-toplevel)
+if ! bash "$racine/.githooks/verifier-publication.sh" "${commits[@]}"; then
+  echo "pre-push : push bloque par le garde-fou de publication." >&2
+  exit 1
+fi
